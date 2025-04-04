@@ -23,14 +23,14 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-md max-w-[95vw] sm:max-w-2xl w-full p-0 gap-0 overflow-y-auto max-h-[85vh] sm:max-h-[85vh]">
+      <DialogContent className="rounded-md max-w-[95vw] sm:max-w-2xl w-full p-0 gap-0  max-h-[85vh] sm:max-h-[85vh] overflow-x-hidden overflow-y-auto">
         <DialogHeader className="sticky top-0 z-50 bg-background border-b p-1 sm:p-6">
           <div className="w-full space-y-2">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3 min-w-0">
                 <img
                   src={insurance.img}
-                  className="h-10  sm:h-12 object-contain"
+                  className="h-10 sm:h-12 object-contain"
                   alt={insurance.provider}
                 />
                 <div className="min-w-0">
@@ -54,7 +54,7 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
           </div>
         </DialogHeader>
 
-        <div className="p-2 sm:p-6">
+        <div className="p-2 sm:p-6 overflow-y-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
             <div className="bg-muted/50 p-3 rounded-lg">
               <div className="text-xs text-muted-foreground">{t('dashboard.policyNumber')}</div>
@@ -106,105 +106,107 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
             </Button>
           </div>
 
-          <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="w-full grid grid-cols-3 h-9">
-              <TabsTrigger value="overview" className="text-xs">
-                {t('insurance.details.overview')}
-              </TabsTrigger>
-              <TabsTrigger value="inclusions" className="text-xs">
-                {t('insurance.details.inclusions')}
-              </TabsTrigger>
-              <TabsTrigger value="exclusions" className="text-xs">
-                {t('insurance.details.exclusions')}
-              </TabsTrigger>
-            </TabsList>
+          <div className="w-full overflow-hidden">
+            <Tabs defaultValue="overview" className="w-full">
+              <TabsList className="w-full grid grid-cols-3 h-9">
+                <TabsTrigger value="overview" className="text-xs">
+                  {t('insurance.details.overview')}
+                </TabsTrigger>
+                <TabsTrigger value="inclusions" className="text-xs">
+                  {t('insurance.details.inclusions')}
+                </TabsTrigger>
+                <TabsTrigger value="exclusions" className="text-xs">
+                  {t('insurance.details.exclusions')}
+                </TabsTrigger>
+              </TabsList>
 
-            <TabsContent value="overview" className="mt-4 space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <div className="text-xs text-muted-foreground">{t('dashboard.policyNumber')}</div>
-                  <div className="text-sm font-medium">Details Awaited</div>
+              <TabsContent value="overview" className="mt-4 space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <div className="text-xs text-muted-foreground">{t('dashboard.policyNumber')}</div>
+                    <div className="text-sm font-medium">Details Awaited</div>
+                  </div>
+                  <div className="space-y-1">
+                    <div className="text-xs text-muted-foreground">{t('dashboard.sumInsured')}</div>
+                    <div className="text-sm font-medium">{insurance.sumInsured}</div>
+                  </div>
                 </div>
-                <div className="space-y-1">
-                  <div className="text-xs text-muted-foreground">{t('dashboard.sumInsured')}</div>
-                  <div className="text-sm font-medium">{insurance.sumInsured}</div>
+
+                <div className="rounded-lg border bg-card ">
+                  <div className="w-full overflow-x-auto overflow-y-auto">
+                    <table className="w-full min-w-[400px]">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="text-xs font-medium text-muted-foreground text-left p-3">
+                            {t('profile.dependent.name')}
+                          </th>
+                          <th className="text-xs font-medium text-muted-foreground text-left p-3">
+                            {t('profile.dependent.relationship')}
+                          </th>
+                          <th className="text-xs font-medium text-muted-foreground text-left p-3">
+                            {t('profile.dependent.dob')}
+                          </th>
+                          <th className="text-xs font-medium text-muted-foreground text-left p-3">
+                            Health ID
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="p-3 text-xs">Sachin</td>
+                          <td className="p-3 text-xs">Self</td>
+                          <td className="p-3 text-xs">01/02/1990</td>
+                          <td className="p-3 text-xs">AAAAAAAAAAAAAAAA</td>
+                        </tr>
+                        <tr>
+                          <td className="p-3 text-xs">Sachin</td>
+                          <td className="p-3 text-xs">Self</td>
+                          <td className="p-3 text-xs">01/02/1990</td>
+                          <td className="p-3 text-xs">AAAAAAAAAAAAAAAA</td>
+                        </tr>
+                        <tr>
+                          <td className="p-3 text-xs">Sachin</td>
+                          <td className="p-3 text-xs">Self</td>
+                          <td className="p-3 text-xs">01/02/1990</td>
+                          <td className="p-3 text-xs">AAAAAAAAAAAAAAAA</td>
+                        </tr>
+                        <tr>
+                          <td className="p-3 text-xs">Sachin</td>
+                          <td className="p-3 text-xs">Self</td>
+                          <td className="p-3 text-xs">01/02/1990</td>
+                          <td className="p-3 text-xs">AAAAAAAAAAAAAAAA</td>
+                        </tr>
+                        <tr>
+                          <td className="p-3 text-xs">Sachin</td>
+                          <td className="p-3 text-xs">Self</td>
+                          <td className="p-3 text-xs">01/02/1990</td>
+                          <td className="p-3 text-xs">AAAAAAAAAAAAAAAA</td>
+                        </tr>
+                        <tr>
+                          <td className="p-3 text-xs">Sachin</td>
+                          <td className="p-3 text-xs">Self</td>
+                          <td className="p-3 text-xs">01/02/1990</td>
+                          <td className="p-3 text-xs">AAAAAAAAAAAAAAAA</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-              </div>
+              </TabsContent>
 
-              <div className="rounded-lg border bg-card">
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b">
-                        <th className="text-xs font-medium text-muted-foreground text-left p-3">
-                          {t('profile.dependent.name')}
-                        </th>
-                        <th className="text-xs font-medium text-muted-foreground text-left p-3">
-                          {t('profile.dependent.relationship')}
-                        </th>
-                        <th className="text-xs font-medium text-muted-foreground text-left p-3">
-                          {t('profile.dependent.dob')}
-                        </th>
-                        <th className="text-xs font-medium text-muted-foreground text-left p-3">
-                          Health ID
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td className="p-3 text-xs">Sachin</td>
-                        <td className="p-3 text-xs">Self</td>
-                        <td className="p-3 text-xs">01/02/1990</td>
-                        <td className="p-3 text-xs">AAAAAAAAAAAAAAAA</td>
-                      </tr>
-                      <tr>
-                        <td className="p-3 text-xs">Sachin</td>
-                        <td className="p-3 text-xs">Self</td>
-                        <td className="p-3 text-xs">01/02/1990</td>
-                        <td className="p-3 text-xs">AAAAAAAAAAAAAAAA</td>
-                      </tr>
-                      <tr>
-                        <td className="p-3 text-xs">Sachin</td>
-                        <td className="p-3 text-xs">Self</td>
-                        <td className="p-3 text-xs">01/02/1990</td>
-                        <td className="p-3 text-xs">AAAAAAAAAAAAAAAA</td>
-                      </tr>
-                      <tr>
-                        <td className="p-3 text-xs">Sachin</td>
-                        <td className="p-3 text-xs">Self</td>
-                        <td className="p-3 text-xs">01/02/1990</td>
-                        <td className="p-3 text-xs">AAAAAAAAAAAAAAAA</td>
-                      </tr>
-                      <tr>
-                        <td className="p-3 text-xs">Sachin</td>
-                        <td className="p-3 text-xs">Self</td>
-                        <td className="p-3 text-xs">01/02/1990</td>
-                        <td className="p-3 text-xs">AAAAAAAAAAAAAAAA</td>
-                      </tr>
-                      <tr>
-                        <td className="p-3 text-xs">Sachin</td>
-                        <td className="p-3 text-xs">Self</td>
-                        <td className="p-3 text-xs">01/02/1990</td>
-                        <td className="p-3 text-xs">AAAAAAAAAAAAAAAA</td>
-                      </tr>
-                    </tbody>
-                  </table>
+              <TabsContent value="inclusions" className="mt-4">
+                <div className="text-sm text-muted-foreground">
+                  Policy inclusions will be displayed here.
                 </div>
-              </div>
-            </TabsContent>
+              </TabsContent>
 
-            <TabsContent value="inclusions" className="mt-4">
-              <div className="text-sm text-muted-foreground">
-                Policy inclusions will be displayed here.
-              </div>
-            </TabsContent>
-
-            <TabsContent value="exclusions" className="mt-4">
-              <div className="text-sm text-muted-foreground">
-                Policy exclusions will be displayed here.
-              </div>
-            </TabsContent>
-          </Tabs>
+              <TabsContent value="exclusions" className="mt-4">
+                <div className="text-sm text-muted-foreground">
+                  Policy exclusions will be displayed here.
+                </div>
+              </TabsContent>
+            </Tabs>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
@@ -212,6 +214,3 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
 };
 
 export default InsuranceDetailsDialog;
-
-
-// cvzvxcv
