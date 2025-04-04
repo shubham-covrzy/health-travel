@@ -9,7 +9,7 @@ const UserProfile = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-16 sm:pb-0">
       <h1 className="text-2xl font-bold">{t('profile.title', 'User Profile')}</h1>
 
       <Card className="overflow-hidden">
@@ -169,6 +169,7 @@ const UserProfile = () => {
           </button>
         </CardContent>
       </Card>
+
     </div>
   );
 };
