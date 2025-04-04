@@ -1,0 +1,106 @@
+{
+  "common": {
+    "appName": "COVRZY",
+    "support": "Support",
+    "profile": "Profile",
+    "logout": "Log out",
+    "contactUs": "Contact Us",
+    "needHelp": "Need help with your claim?",
+    "contactSupport": "Contact our support team at"
+  },
+  "nav": {
+    "home": "Home",
+    "claims": "Claims",
+    "profile": "Profile"
+  },
+  "dashboard": {
+    "title": "Your Dashboard",
+    "raiseClaim": "HOW TO RAISE A CLAIM",
+    "benefits": "Your Benefits",
+    "policyNumber": "Policy Number",
+    "sumInsured": "Sum Insured",
+    "membersCovered": "Members Covered"
+  },
+  "insurance": {
+    "details": {
+      "overview": "Overview",
+      "inclusions": "Inclusions",
+      "exclusions": "Exclusions",
+      "downloadCard": "DOWNLOAD HEALTH CARD",
+      "hospitalNetwork": "HOSPITAL NETWORK",
+      "dayCareTreatment": "DAY CARE TREATMENT LIST"
+    }
+  },
+  "claims": {
+    "title": "How to raise a claim?",
+    "manager": "For claims related queries, please reach out to your claims manager",
+    "types": {
+      "planned": {
+        "title": "Planned Cashless Claim",
+        "description": "Choose this option if you have plans to receive treatment at a hospital in the upcoming days."
+      },
+      "emergency": {
+        "title": "Emergency Cashless Claim",
+        "description": "Choose this option if you are currently at the hospital and receiving medical care."
+      },
+      "reimbursement": {
+        "title": "Reimbursement Claim",
+        "description": "Select this if you have recently been released from the hospital and settled any outstanding medical expenses."
+      }
+    },
+    "viewDetails": "View Details",
+    "downloadECard": "Download E-Card",
+    "viewHospitals": "View Network Hospitals",
+    "process": {
+      "title": "Cashless Claim Process",
+      "step": "Step"
+    },
+    "viewDocList": "View Document List"
+  },
+  "profile": {
+    "title": "User Profile",
+    "tabs": {
+      "details": "My Details",
+      "dependents": "Dependents"
+    },
+    "personal": {
+      "title": "Personal Information",
+      "phone": "Phone",
+      "address": "Address",
+      "dob": "Date of Birth",
+      "driverId": "Driver ID",
+      "gender": "Gender"
+    },
+    "dependent": {
+      "title": "Dependent",
+      "name": "Name",
+      "dob": "Date of Birth",
+      "relationship": "Relationship",
+      "gender": "Gender"
+    },
+    "support": {
+      "title": "Contact Support",
+      "hotline": "Support Hotline",
+      "email": "Email Support"
+    }
+  },
+  "login": {
+    "welcome": "Welcome to Covrzy",
+    "credentials": "Enter your credentials to access your account",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "signin": "Sign in",
+    "signingIn": "Signing in...",
+    "hint": "Hint: Use demo@example.com / password to login",
+    "haveAccount": "Already have an account?"
+  },
+  "errors": {
+    "noPolicy": "No policy exists for your registered mobile number. Please contact us to know more.",
+    "notFound": {
+      "title": "404",
+      "message": "Oops! We couldn't find the page you're looking for.",
+      "button": "Return to Dashboard"
+    }
+  }
+}

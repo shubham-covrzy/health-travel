@@ -1,0 +1,108 @@
+{
+  "common": {
+    "appName": "COVRZY",
+    "support": "Soporte",
+    "profile": "Perfil",
+    "logout": "Cerrar sesión",
+    "contactUs": "Contáctenos",
+    "needHelp": "¿Necesita ayuda con su reclamo?",
+    "contactSupport": "Contacte a nuestro equipo de soporte en",
+    "or": "o",
+    "here": "aquí"
+  },
+  "nav": {
+    "home": "Inicio",
+    "claims": "Reclamos",
+    "profile": "Perfil"
+  },
+  "dashboard": {
+    "title": "Su Panel",
+    "raiseClaim": "CÓMO PRESENTAR UN RECLAMO",
+    "benefits": "Sus Beneficios",
+    "policyNumber": "Número de Póliza",
+    "sumInsured": "Suma Asegurada",
+    "membersCovered": "Miembros Cubiertos"
+  },
+  "insurance": {
+    "details": {
+      "overview": "Resumen",
+      "inclusions": "Inclusiones",
+      "exclusions": "Exclusiones",
+      "downloadCard": "DESCARGAR TARJETA DE SALUD",
+      "hospitalNetwork": "RED DE HOSPITALES",
+      "dayCareTreatment": "LISTA DE TRATAMIENTOS AMBULATORIOS"
+    }
+  },
+  "claims": {
+    "title": "¿Cómo presentar un reclamo?",
+    "manager": "Para consultas relacionadas con reclamos, comuníquese con su gerente de reclamos",
+    "types": {
+      "planned": {
+        "title": "Reclamo Sin Efectivo Planificado",
+        "description": "Elija esta opción si tiene planes de recibir tratamiento en un hospital en los próximos días."
+      },
+      "emergency": {
+        "title": "Reclamo Sin Efectivo de Emergencia",
+        "description": "Elija esta opción si actualmente está en el hospital y recibe atención médica."
+      },
+      "reimbursement": {
+        "title": "Reclamo de Reembolso",
+        "description": "Seleccione esto si ha sido dado de alta recientemente del hospital y ha liquidado cualquier gasto médico pendiente."
+      }
+    },
+    "viewDetails": "Ver Detalles",
+    "downloadECard": "Descargar E-Card",
+    "viewHospitals": "Ver Hospitales en Red",
+    "process": {
+      "title": "Proceso de Reclamo Sin Efectivo",
+      "step": "Paso"
+    },
+    "viewDocList": "Ver Lista de Documentos"
+  },
+  "profile": {
+    "title": "Perfil de Usuario",
+    "tabs": {
+      "details": "Mis Detalles",
+      "dependents": "Dependientes"
+    },
+    "personal": {
+      "title": "Información Personal",
+      "phone": "Teléfono",
+      "address": "Dirección",
+      "dob": "Fecha de Nacimiento",
+      "driverId": "ID de Conductor",
+      "gender": "Género"
+    },
+    "dependent": {
+      "title": "Dependiente",
+      "name": "Nombre",
+      "dob": "Fecha de Nacimiento",
+      "relationship": "Relación",
+      "gender": "Género"
+    },
+    "support": {
+      "title": "Contactar Soporte",
+      "hotline": "Línea Directa de Soporte",
+      "email": "Correo de Soporte"
+    }
+  },
+  "login": {
+    "welcome": "Bienvenido a Covrzy",
+    "credentials": "Ingrese sus credenciales para acceder a su cuenta",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "forgotPassword": "¿Olvidó su contraseña?",
+    "signin": "Iniciar sesión",
+    "signingIn": "Iniciando sesión...",
+    "hint": "Sugerencia: Use demo@example.com / password para iniciar sesión",
+    "haveAccount": "¿Ya tiene una cuenta?"
+  },
+  "errors": {
+    "noPolicy": "No existe una póliza para su número de móvil registrado. Contáctenos para obtener más información.",
+    "notFound": {
+      "title": "404",
+      "message": "¡Ups! No pudimos encontrar la página que estás buscando.",
+      "button": "Volver al Panel"
+    }
+  }
+}
