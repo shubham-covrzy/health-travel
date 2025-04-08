@@ -12,7 +12,9 @@ import { Globe } from "lucide-react";
 const languages = [
     { code: 'en', name: 'English' },
     { code: 'hi', name: 'हिन्दी' },
-    { code: 'es', name: 'Español' }
+    // { code: 'es', name: 'Español' },
+    { code: 'kn', name: 'ಕನ್ನಡ' },   
+    { code: 'ta', name: 'தமிழ்' }     
 ];
 
 const LanguageSwitcher: React.FC = () => {
@@ -38,7 +40,7 @@ const LanguageSwitcher: React.FC = () => {
                     <DropdownMenuItem
                         key={lang.code}
                         onClick={() => changeLanguage(lang.code)}
-                        className={i18n.language === lang.code ? "bg-gray-100" : ""}
+                        className={i18n.language === lang.code ? "bg-gray-100" : "cursor-pointer"}
                     >
                         {lang.name}
                     </DropdownMenuItem>

@@ -1,44 +1,22 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
+import authService from "../services/authService";
+import { toast } from "@/components/ui/use-toast";
 
-// Define the shape of the user object with role information
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  isAuthenticated: boolean;
-  role: "user" | "admin";  // Added role field
-}
+// Import the policy interfaces
+import { PolicyMembersResponse,User } from "../types/user";
 
-// Define the shape of the auth context
+
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
-  isAdmin: () => boolean;  // Helper method to check if user is admin
+  isAdmin: () => boolean;
 }
 
 // Create the context with a default value
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-// Mock user data for demonstration
-const MOCK_USERS = {
-  regular: {
-    id: "123",
-    name: "Sachin Tendulkar",
-    email: "demo@example.com",
-    isAuthenticated: true,
-    role: "user" as const,
-  },
-  admin: {
-    id: "999",
-    name: "Thota Veera Venkata Ratna Kumar",
-    email: "admin@example.com",
-    isAuthenticated: true,
-    role: "admin" as const,
-  }
-};
 
 // Provider component that wraps your app and makes auth object available to any child component
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -48,12 +26,35 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // Check if user is already logged in
   useEffect(() => {
-    const checkAuthStatus = () => {
-      // In a real app, you would check localStorage, session, or cookies
-      const storedUser = localStorage.getItem("user");
+    const checkAuthStatus = async () => {
+      const currentUser = authService.getCurrentUser();
 
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
+      if (currentUser) {
+        // Create the base user object
+        const userObj:User = {
+          userId: currentUser.userId,
+          email: currentUser.email,
+          isAuthenticated: true,
+          role: currentUser.role
+        };
+
+        // If we have policy members stored, add them to the user object
+        const policyDetails = localStorage.getItem('policyDetails');
+        if (policyDetails) {
+          userObj.policyDetails = JSON.parse(policyDetails);
+        } else {
+          // If policy members aren't in localStorage but we have a user,
+          // try to fetch them
+          try {
+            const members = await authService.fetchPolicyDetails(currentUser.userId);
+            userObj.policyDetails = members;
+            localStorage.setItem('policyDetails', JSON.stringify(members));
+          } catch (error) {
+            console.error("Failed to fetch policy members on init:", error);
+          }
+        }
+
+        setUser(userObj);
       }
 
       setIsLoading(false);
@@ -62,32 +63,50 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     checkAuthStatus();
   }, []);
 
-  // Login function - in a real app would make an API call
+  // Login function - now uses authService
   const login = async (email: string, password: string): Promise<void> => {
     setIsLoading(true);
 
     try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Call the login service
+      const data = await authService.login(email, password);
 
-      // Check for admin login
-      if (email === "admin@example.com" && password === "admin123") {
-        localStorage.setItem("user", JSON.stringify(MOCK_USERS.admin));
-        setUser(MOCK_USERS.admin);
+      // Initialize user object
+      const userObj:User = {
+        userId: data.userId,
+        email: data.email,
+        isAuthenticated: true,
+        role: data.roles[0].toUpperCase()
+      };
+
+      // Fetch policy members for the user
+      try {
+        const policyDetails: PolicyMembersResponse = await authService.fetchPolicyDetails(data.userId);
+        userObj.policyDetails = policyDetails;
+
+        // Store policy members in localStorage for future use
+        localStorage.setItem('policyDetails', JSON.stringify(policyDetails));
+      } catch (error) {
+        console.error("Failed to fetch policy members:", error);
+        // Continue with login even if policy members fetch fails
+      }
+
+      // Set user in state with policy members (if available)
+      setUser(userObj);
+
+      // Navigate based on role
+      if (data.roles[0].toUpperCase() === 'ADMIN') {
         navigate("/admin/");
-        return;
-      }
-
-      // Check for regular user login
-      if (email === "demo@example.com" && password === "password") {
-        localStorage.setItem("user", JSON.stringify(MOCK_USERS.regular));
-        setUser(MOCK_USERS.regular);
+      } else {
         navigate("/");
-        return;
       }
 
-      // If neither matched
-      throw new Error("Invalid credentials");
+      // Show success toast
+      toast({
+        title: "Login successful",
+        description: `Welcome back!`,
+      });
+
     } catch (error) {
       console.error("Login failed:", error);
       throw error;
@@ -98,16 +117,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // Logout function
   const logout = () => {
-    localStorage.removeItem("user");
+    authService.logout();
+    // Also remove policy members when logging out
+    localStorage.removeItem('policyDetails');
     setUser(null);
     navigate("/login");
   };
 
   // Helper function to check if user is admin
   const isAdmin = (): boolean => {
-    return user?.role === "admin";
+    return authService.isAdmin();
   };
 
+  console.log(user)
   // Context value
   const value = {
     user,

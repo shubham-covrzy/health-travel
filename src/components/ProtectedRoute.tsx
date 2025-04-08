@@ -17,7 +17,7 @@ const ProtectedRoute = () => {
 
   // If not authenticated, redirect to no-insurance page
   if (!user) {
-    return <Navigate to="/no-insurance" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   // If authenticated, render the child routes

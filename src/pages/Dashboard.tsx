@@ -6,8 +6,10 @@ import { useState } from "react";
 import InsuranceDetailsDialog from "@/components/InsuranceDetailsDialog";
 import relianceInsurer from '../assets/reliance-insurer.svg';
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/context/AuthContext";
 
 const Dashboard = () => {
+  const { user } = useAuth();
   const isMobile = useIsMobile();
   const [selectedInsurance, setSelectedInsurance] = useState(null);
   const [isInsuranceDialogOpen, setIsInsuranceDialogOpen] = useState(false);
