@@ -6,4 +6,4 @@ services:
     image: travel-portal
     container_name: travel-portal
     ports:
-      - "8080:8080"
+      - "3000:8080"
