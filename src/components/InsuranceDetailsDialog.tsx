@@ -33,7 +33,7 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-md max-w-[95vw] sm:max-w-2xl w-full p-0 gap-0 max-h-[85vh] sm:max-h-[85vh] overflow-x-hidden overflow-y-auto">
+      <DialogContent className="rounded-md max-w-[95vw] sm:max-w-2xl w-full p-0 gap-0 max-h-[85vh] sm:max-h-[85vh] overflow-x-hidden overflow-y-hidden">
         <DialogHeader className="sticky top-0 z-50 bg-background border-b p-1 sm:p-6">
           <div className="w-full space-y-2">
             <div className="flex items-center justify-between gap-4">
@@ -64,7 +64,7 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
           </div>
         </DialogHeader>
 
-        <div className="p-2 sm:p-6 overflow-y-auto">
+        <div className="p-2 sm:p-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
             <div className="bg-muted/50 p-3 rounded-lg">
               <div className="text-xs text-muted-foreground">{t('dashboard.policyNumber')}</div>
@@ -76,7 +76,7 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
             </div>
             <div className="bg-muted/50 p-3 rounded-lg">
               <div className="text-xs text-muted-foreground">{t('dashboard.membersCovered')}</div>
-              <div className="text-sm font-medium mt-1">Employee +{user?.policyDetails?.members?.length - 1 > 0 ? user?.policyDetails?.members?.length - 1 : null}</div>
+              <div className="text-sm font-medium mt-1">Employee +{user?.policyDetails?.members?.length-1 > 0 ? user?.policyDetails?.members?.length-1 : null}</div>
             </div>
           </div>
 
@@ -116,7 +116,7 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
             </Button>
           </div>
 
-          <div className="w-full overflow-hidden">
+          <div className="w-full overflow-x-hidden overflow-y-auto">
             <Tabs defaultValue="overview" className="w-full">
               <TabsList className="w-full grid grid-cols-3 h-9">
                 <TabsTrigger value="overview" className="text-xs">
@@ -134,7 +134,7 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
                 <div className="flex justify-between gap-4">
                   <div className="space-y-1">
                     <div className="text-xs text-muted-foreground">{t('dashboard.policyNumber')}</div>
-                    <div className="text-sm font-medium">{insurance.policyNumber}</div>
+                    <div className="text-sm font-medium">{ insurance.policyNumber}</div>
                   </div>
                   <div className="space-y-1">
                     <div className="text-xs text-muted-foreground">{t('dashboard.sumInsured')}</div>
@@ -143,8 +143,8 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
                 </div>
 
                 <div className="rounded-lg border bg-card ">
-                  <div className="w-full overflow-x-auto overflow-y-auto">
-                    <table className="w-full min-w-[400px]">
+                  <div className="w-full max-h-[100px] overflow-x-auto overflow-y-auto ">
+                    <table className="w-full min-w-[400px] mb-5">
                       <thead>
                         <tr className="border-b">
                           <th className="text-xs font-medium text-muted-foreground text-left p-3">
@@ -163,11 +163,11 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
                       </thead>
                       <tbody>
                         {
-                          user?.policyDetails?.members.map((member, index) => (
+                          user.policyDetails.members.map((member, index) => (
                             <tr key={index}>
                               <td className="p-3 text-xs">{member?.name}</td>
                               <td className="p-3 text-xs">{member?.relation}</td>
-                              <td className="p-3 text-xs">{member?.dob ? new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(new Date(member.dob)) : ''}</td>
+                              <td className="p-3 text-xs">{member?.dob ? new Intl.DateTimeFormat('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}).format(new Date(member.dob)) : ''}</td>
                               <td className="p-3 text-xs">{member?.healthId}</td>
                             </tr>
                           ))
@@ -179,7 +179,7 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
               </TabsContent>
 
               <TabsContent value="inclusions" className="mt-4">
-                <div className="space-y-6 py-2">
+                <div className="space-y-6 py-2 max-h-[100px] overflow-x-auto overflow-y-auto">
                   {insurance.inclusions.map((item, index) => (
                     <div key={index} className="flex gap-3">
                       <div className="flex-shrink-0 mt-1">
@@ -199,7 +199,7 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
               </TabsContent>
 
               <TabsContent value="exclusions" className="mt-4">
-                <div className="space-y-6 py-2">
+                <div className="space-y-6 py-2 max-h-[100px] overflow-x-auto overflow-y-auto">
                   {insurance.exclusions.map((item, index) => (
                     <div key={index} className="flex gap-3">
                       <div className="flex-shrink-0 mt-1">
