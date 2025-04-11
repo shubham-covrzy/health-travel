@@ -26,11 +26,11 @@ const UserProfile = ({ className }: UserProfileProps) => {
         <div className="relative px-6 pb-6">
           <Avatar className="h-20 w-20 absolute -top-10 border-4 border-white">
             <AvatarImage src="/images/profile-placeholder.jpg" alt="User avatar" />
-            <AvatarFallback className="text-xl">ST</AvatarFallback>
+            <AvatarFallback className="text-xl">{user?.fullName?.charAt(0)}</AvatarFallback>
           </Avatar>
 
           <div className="pt-12">
-            <h2 className="text-xl font-bold">Sachin Tendulkar</h2>
+            <h2 className="text-xl font-bold">{user?.fullName }</h2>
           </div>
         </div>
       </Card>

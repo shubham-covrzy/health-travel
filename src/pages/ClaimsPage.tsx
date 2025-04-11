@@ -8,9 +8,29 @@ import { Phone, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import claimImg from '../assets/claim.svg'
+import { ENV } from "@/data";
 const ClaimsPage = () => {
   const isMobile = useIsMobile();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const getLanguageSpecificSupportNumber = () => {
+    const currentLanguage = i18n.language; 
+
+    switch (currentLanguage) {
+      case 'hi':
+        return ENV.CLAIM_SUPPORT_HINDI;
+      case 'ta':
+        return ENV.CLAIM_SUPPORT_TAMIL;
+      case 'kn':
+        return ENV.CLAIM_SUPPORT_KANNADA;
+      case 'en':
+      default:
+        return ENV.CLAIM_SUPPORT_ENGLISH;
+    }
+  };
+
+  const supportNumber = getLanguageSpecificSupportNumber();
+
 
   const claimTypes = [
     {
@@ -73,17 +93,17 @@ const ClaimsPage = () => {
             <div className="p-6 flex-1">
               <p className="text-gray-600 mb-4">
                 {t('claims.manager')}:
-                <span className="font-medium text-gray-800 ml-1">{import.meta.env.VITE_POC_NAME_INSURANCE}</span>
+                <span className="font-medium text-gray-800 ml-1">{ENV.SUPPORT_NAME}</span>
               </p>
 
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <Phone className="h-5 w-5 text-gray-500" />
-                  <span className="text-gray-800">{import.meta.env.VITE_POC_NO_INSURANCE}</span>
+                  <span className="text-gray-800">{supportNumber}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Mail className="h-5 w-5 text-gray-500" />
-                  <span className="text-gray-800">{import.meta.env.VITE_POC_EMAIL_INSURANCE}</span>
+                  <span className="text-gray-800">{ENV.SUPPORT_EMAIL}</span>
                 </div>
               </div>
             </div>

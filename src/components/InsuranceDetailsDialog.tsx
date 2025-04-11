@@ -95,6 +95,7 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
             <Button
               variant="outline"
               className="w-full text-xs h-9"
+              onClick={() => window.open('https://rgi-locator.appspot.com/?Search_by=hospital&sourcesystem=website&phonenumber=&emailid=#/', '_blank')}
             >
               {t('insurance.details.hospitalNetwork')}
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2">
@@ -106,6 +107,7 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
             <Button
               variant="outline"
               className="w-full text-xs h-9"
+              onClick={() => window.open('https://www.reliancegeneral.co.in/Downloads/List_of_Day_Care_Procedures.pdf', '_blank')}
             >
               {t('insurance.details.dayCareTreatment')}
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2">
@@ -180,7 +182,8 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
 
               <TabsContent value="inclusions" className="mt-4">
                 <div className="space-y-6 py-2 max-h-[100px] overflow-x-auto overflow-y-auto">
-                  {insurance.inclusions.map((item, index) => (
+                  {/* Access the inclusions array directly from your translation data */}
+                  {t('dashboard.inclusions', { returnObjects: true }).map((item, index) => (
                     <div key={index} className="flex gap-3">
                       <div className="flex-shrink-0 mt-1">
                         <div className="w-5 h-5 rounded-full flex items-center justify-center bg-green-100 text-green-600">
@@ -200,7 +203,8 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
 
               <TabsContent value="exclusions" className="mt-4">
                 <div className="space-y-6 py-2 max-h-[100px] overflow-x-auto overflow-y-auto">
-                  {insurance.exclusions.map((item, index) => (
+                  {/* Access the exclusions array directly from your translation data */}
+                  {t('dashboard.exclusions', { returnObjects: true }).map((item, index) => (
                     <div key={index} className="flex gap-3">
                       <div className="flex-shrink-0 mt-1">
                         <div className="w-5 h-5 rounded-full flex items-center justify-center bg-red-100 text-red-600">

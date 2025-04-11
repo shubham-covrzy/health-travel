@@ -115,9 +115,21 @@ const LoginPage = () => {
         description: "You have successfully logged in",
       });
     } catch (error) {
+      // Improved error handling
+      let errorMessage = "Please try again.";
+
+      // Check if it's an Axios error with a response from the server
+      if (error.response && error.response.data && error.response.data.error) {
+        // Use the server's error message
+        errorMessage = error.response.data.error;
+      } else if (error.message) {
+        // If there's no specific server error but there is a message
+        errorMessage = error.message;
+      }
+
       toast({
         title: "Login Failed",
-        description: "Invalid OTP. Please try again.",
+        description: `${errorMessage}`,
         variant: "destructive",
       });
     } finally {

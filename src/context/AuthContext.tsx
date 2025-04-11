@@ -143,6 +143,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Login with OTP function
+  // Login with OTP function
   const loginWithOtp = async (phone: string, otp: string): Promise<void> => {
     setIsLoading(true);
 
@@ -160,6 +161,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         role: data.roles[0].toUpperCase()
       };
 
+      // Set user in state with policy members (if available)
+      setUser(userObj);
+
       // Fetch policy members for the user
       try {
         const policyDetails: PolicyMembersResponse = await authService.fetchPolicyDetails(data.userId);
@@ -172,9 +176,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         // Continue with login even if policy members fetch fails
       }
 
-      // Set user in state with policy members (if available)
-      setUser(userObj);
-
       // Navigate to home since OTP login is only for regular users
       navigate("/");
 
@@ -186,6 +187,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     } catch (error) {
       console.error("OTP login failed:", error);
+      // Rethrow the error to be handled by the component
       throw error;
     } finally {
       setIsLoading(false);

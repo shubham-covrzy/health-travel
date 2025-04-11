@@ -19,7 +19,147 @@
     "benefits": "Your Benefits",
     "policyNumber": "Policy Number",
     "sumInsured": "Sum Insured",
-    "membersCovered": "Members Covered"
+    "membersCovered": "Members Covered",
+    "inclusions": [
+      {
+        "title": "Pre-existing diseases (PED)",
+        "description": "Covered from Day one."
+      },
+      {
+        "title": "Ailment capping",
+        "description": "Appendectomy, cataract, Hernia, Hydrocele, Hysterectomy - 10% of sum insured upto ₹30,000. Kidney Stone & Prostate Removal surgery and any problems or complications related to it & Gall stone - 10% of the sum insured upto ₹30,000. Piles - 10% of the sum insured subject upto ₹30,000. Joint Replacement - 15% of the sum insured upto ₹45,000"
+      },
+      {
+        "title": "No co-pay",
+        "description": "0% co-pay"
+      },
+      {
+        "title": "Pre-hospitalisation",
+        "description": "30 days of pre-hospitalisation is covered"
+      },
+      {
+        "title": "Post-hospitalisation",
+        "description": "60 days of post-hospitalisation is covered"
+      },
+      {
+        "title": "Ambulance cover",
+        "description": "Ambulance coverage of up to ₹2000 per incidence"
+      },
+      {
+        "title": "Day care procedures",
+        "description": "Covered for specific procedures as per list which require less than 24 hrs of hospitalization"
+      },
+      {
+        "title": "Room rent charges",
+        "description": "Room rent charges for twin sharing including RMO, nursing charges and other associated charges are covered upto 2% of sum insured for normal hospitalization and upto 4% for ICUs."
+      },
+      {
+        "title": "Maternity cover",
+        "description": "Maternity cover for normal delivery and C-section delivery up to ₹40,000 each are covered. No waiting period applicable for maternity benefits."
+      },
+      {
+        "title": "New born baby cover",
+        "description": "New born baby coverage will be active from day 1 upto maternity limits"
+      },
+      {
+        "title": "Accidental death",
+        "description": "Cover up to personal accident sum insured of ₹5,00,000"
+      },
+      {
+        "title": "Permanent partial disability (PPD)",
+        "description": "PPD cover up to ₹5,00,000 is covered"
+      },
+      {
+        "title": "Permanent total disability (PTD)",
+        "description": "PTD cover up to ₹5,00,000 is covered"
+      },
+      {
+        "title": "Daily Hospitalization cash benefits",
+        "description": "Daily cash of ₹500/day up to 15 days is covered on hospitalization with a 1 day deductible."
+      },
+      {
+        "title": "Ayush Treatment",
+        "description": "Medical expenses which are incurred on treatment under AYUSH up to the sum insured will be indemnified."
+      },
+      {
+        "title": "Temporary Total Disablement (TTD)",
+        "description": "TTD cover up to ₹500/day for a maximum of 10 days is provided."
+      },
+      {
+        "title": "Medical Expenses (ME)",
+        "description": "Covers hospitalization or in-patient care due to injury, based on doctor's advice. Limit: Up to ₹5,000 or actual cost, whichever is lower."
+      },
+      {
+        "title": "Carriage of Dead Body",
+        "description": "Covers transportation of the deceased to their residence if death occurs due to an accident outside home. Limit: 2% of Capital Sum Insured or ₹5,000, whichever is less."
+      },
+      {
+        "title": "Modern Treatment Cover",
+        "description": "Up to 50% of Base Sum Insured for advanced procedures like stem cell therapy, oral chemo, robot surgeries, immunotherapy, laser treatments, and neuro monitoring."
+      },
+      {
+        "title": "Organ Donor Cover",
+        "description": "Covers up to 50% of base sum insured for medical expenses of organ transplant (for the insured person only). Note: Donor's surgery cost & other expenses not covered."
+      },
+      {
+        "title": "In-Patient Treatment Cover",
+        "description": "Medical expenses covered during hospital stays on doctor's advice, including room rent, nursing, doctor fees, OT charges, anesthesia, oxygen, surgical items, medicines, drugs, and consumables."
+      }
+    ],
+    "exclusions":  [
+      {
+        "title": "Diagnosis and evaluation",
+        "description": "Expenses related to any admission intended for diagnostic and evaluation purposes."
+      },
+      {
+        "title": "Gender change treatments",
+        "description": "Expenses related to any treatment pertaining to gender change not covered"
+      },
+      {
+        "title": "Cosmetic or plastic surgery",
+        "description": "Not covered unless related to reconstruction following an accident, burns or cancer"
+      },
+      {
+        "title": "Out Patient Department (OPD)",
+        "description": "OPD treatments not covered"
+      },
+      {
+        "title": "Dental treatments",
+        "description": "Dental treatments not covered except in cases of accidents"
+      },
+      {
+        "title": "Consumables",
+        "description": "Consumables such as syringes, medications and more not covered"
+      },
+      {
+        "title": "Games and adventure sports",
+        "description": "Injuries, hospitalizations or other claims arising from games or adventure sports not covered"
+      },
+      {
+        "title": "Suicide or self-harm",
+        "description": "Claims arising from suicide, injuries/attempts to suicide or self-harm not covered"
+      },
+      {
+        "title": "Criminal acts",
+        "description": "Claims related to violation of law with criminal intent not covered"
+      },
+      {
+        "title": "War or terrorism",
+        "description": "Acts of terrorism or war not covered"
+      },
+      {
+        "title": "Mental and sexual health",
+        "description": "Claims related to STDs and mental health not covered"
+      },
+      {
+        "title": "Substance abuse and self-harm under influence",
+        "description": "Treatment for alcohol, drugs or substance abuse, or any addictive condition - including self-inflicted injury, suicide or attempted suicide under the influence of alcohol or drugs - not covered."
+      },
+      {
+        "title": "Infertility or sterility related expenses",
+        "description": "Expenses related to infertility or sterility treatments are not covered."
+      }
+    ]
   },
   "insurance": {
     "details": {
@@ -70,7 +210,8 @@
       "dob": "Date of Birth",
       "driverId": "Driver ID",
       "gender": "Gender",
-      "healthId": "Health ID"
+      "healthId": "Health ID",
+      "relationship": "Relationship"
     },
     "dependent": {
       "title": "Dependent",

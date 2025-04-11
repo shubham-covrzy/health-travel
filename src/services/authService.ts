@@ -96,10 +96,17 @@ class AuthService {
 
       return response.data;
     } catch (error) {
-      throw error;
+      // Format the error to be more user-friendly
+      if (error.response && error.response.data) {
+        // If there's a specific error message from the API, use it
+        throw error;
+      } else {
+        // Otherwise, create a more generic error
+        const newError = new Error("Connection failed. Please check your internet and try again.");
+        throw newError;
+      }
     }
   }
-
   async fetchPolicyDetails(userId: string): Promise<PolicyMembersResponse> {
     try {
       const response: AxiosResponse<PolicyMembersResponse> = await axiosInstance.get(`/api/users/${userId}/policy-members`);
