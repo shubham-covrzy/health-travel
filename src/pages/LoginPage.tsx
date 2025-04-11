@@ -15,6 +15,7 @@ const LoginPage = () => {
   const [timer, setTimer] = useState(0);
   const { loginWithOtp, sendOtp, resendOtp } = useAuth();
   const otpInputRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
+  const singleOtpInputRef = useRef(null);
 
   useEffect(() => {
     let interval;
@@ -29,6 +30,9 @@ const LoginPage = () => {
       if (interval) clearInterval(interval);
     };
   }, [timer]);
+
+  // Detect if device is mobile
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   const handleSendOtp = async (e) => {
     e.preventDefault();
@@ -71,8 +75,10 @@ const LoginPage = () => {
         description: "OTP has been sent to your phone number",
       });
 
-      // Focus the first OTP input
-      if (otpInputRefs[0].current) {
+      // Focus the appropriate OTP input based on device
+      if (isMobile && singleOtpInputRef.current) {
+        singleOtpInputRef.current.focus();
+      } else if (otpInputRefs[0].current) {
         otpInputRefs[0].current.focus();
       }
     } catch (error) {
@@ -89,14 +95,29 @@ const LoginPage = () => {
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
 
-    const otpValue = otp.join("");
-    if (otpValue.length !== 4) {
-      toast({
-        title: "Error",
-        description: "Please enter the complete 4-digit OTP",
-        variant: "destructive",
-      });
-      return;
+    let otpValue;
+    if (isMobile) {
+      // For mobile, get OTP from single input
+      otpValue = singleOtpInputRef.current.value;
+      if (otpValue.length !== 4) {
+        toast({
+          title: "Error",
+          description: "Please enter the complete 4-digit OTP",
+          variant: "destructive",
+        });
+        return;
+      }
+    } else {
+      // For desktop, combine from individual inputs
+      otpValue = otp.join("");
+      if (otpValue.length !== 4) {
+        toast({
+          title: "Error",
+          description: "Please enter the complete 4-digit OTP",
+          variant: "destructive",
+        });
+        return;
+      }
     }
 
     setIsSubmitting(true);
@@ -187,6 +208,20 @@ const LoginPage = () => {
     }
   };
 
+  // Handle changes in the single OTP input (mobile)
+  const handleSingleOtpChange = (e) => {
+    const value = e.target.value;
+
+    // Only allow digits and limit to 4 characters
+    if (!/^\d*$/.test(value) || value.length > 4) {
+      return;
+    }
+
+    // Update the visual separated OTP display for consistency
+    const otpArray = value.split('').concat(Array(4).fill('')).slice(0, 4);
+    setOtp(otpArray);
+  };
+
   const handleKeyDown = (index, e) => {
     // Move to previous input on backspace if current input is empty
     if (e.key === "Backspace" && !otp[index] && index > 0 && otpInputRefs[index - 1].current) {
@@ -233,6 +268,7 @@ const LoginPage = () => {
                   placeholder="919876543210"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
+                  autoComplete="tel"
                 />
                 <p className="text-xs text-gray-500">
                   Enter your phone number with country code (e.g., 91 for India)
@@ -259,22 +295,53 @@ const LoginPage = () => {
                 <label htmlFor="otp" className="text-sm font-medium">
                   One-Time Password
                 </label>
-                <div className="flex justify-center gap-2">
-                  {[0, 1, 2, 3].map((index) => (
+
+                {isMobile ? (
+                  /* Mobile OTP Input with autofill support */
+                  <div className="flex flex-col space-y-2">
                     <Input
-                      key={index}
-                      ref={otpInputRefs[index]}
-                      className="w-12 h-12 text-center text-lg"
+                      ref={singleOtpInputRef}
+                      className="text-center text-lg"
                       type="text"
                       inputMode="numeric"
-                      maxLength={1}
-                      value={otp[index]}
-                      onChange={(e) => handleOtpChange(index, e.target.value)}
-                      onKeyDown={(e) => handleKeyDown(index, e)}
-                      autoComplete="off"
+                      pattern="[0-9]*"
+                      maxLength={4}
+                      autoComplete="one-time-code"
+                      onChange={handleSingleOtpChange}
+                      value={otp.join('')}
                     />
-                  ))}
-                </div>
+
+                    {/* Visual representation of separate digits */}
+                    <div className="flex justify-center gap-2">
+                      {[0, 1, 2, 3].map((index) => (
+                        <div
+                          key={index}
+                          className="w-12 h-12 flex items-center justify-center border rounded-md text-lg"
+                        >
+                          {otp[index]}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  /* Desktop OTP Input */
+                  <div className="flex justify-center gap-2">
+                    {[0, 1, 2, 3].map((index) => (
+                      <Input
+                        key={index}
+                        ref={otpInputRefs[index]}
+                        className="w-12 h-12 text-center text-lg"
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={1}
+                        value={otp[index]}
+                        onChange={(e) => handleOtpChange(index, e.target.value)}
+                        onKeyDown={(e) => handleKeyDown(index, e)}
+                        autoComplete="off"
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
               <Button
                 type="submit"
