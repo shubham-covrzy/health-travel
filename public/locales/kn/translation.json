@@ -71,14 +71,17 @@
       "address": "ವಿಳಾಸ",
       "dob": "ಹುಟ್ಟಿದ ದಿನಾಂಕ",
       "driverId": "ಚಾಲಕ ID",
-      "gender": "ಲಿಂಗ"
+      "gender": "ಲಿಂಗ",
+      "healthId": "ಆರೋಗ್ಯ ID"
     },
     "dependent": {
       "title": "ಅವಲಂಬಿತ",
       "name": "ಹೆಸರು",
       "dob": "ಹುಟ್ಟಿದ ದಿನಾಂಕ",
       "relationship": "ಸಂಬಂಧ",
-      "gender": "ಲಿಂಗ"
+      "gender": "ಲಿಂಗ",
+      "healthId": "स्वास्थ्य आईडी"
+
     },
     "support": {
       "title": "ಬೆಂಬಲ ಸಂಪರ್ಕಿಸಿ",

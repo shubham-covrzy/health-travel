@@ -1,4 +1,4 @@
-// Updated App.tsx with AdminSettings
+// Updated App.tsx with OTP Login and separate Admin Login
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,6 +12,7 @@ import PlannedCashlessClaimPage from "./pages/PlannedCashlessClaimPage";
 import UserProfile from "./pages/UserProfile";
 import NoInsurance from "./pages/NoInsurance";
 import LoginPage from "./pages/LoginPage";
+import AdminLoginPage from "./pages/admin/AdminLogin";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
@@ -25,8 +26,8 @@ import AdminProfilePage from "./pages/admin/AdminProfilePage";
 import AdminSettings from "./pages/admin/AdminSettings";
 import UploadMembersPage from "./pages/admin/UploadMembersPage";
 import ReviewMembersDataPage from "./pages/admin/ReviewMembersDataPage";
-import AddIndividualMemberPage from "./pages/admin/AddIndividualMemberPage"; // You'd need to create this
-import InviteMembersPage from "./pages/admin/InviteMembersPage"; // You'd need to create this
+import AddIndividualMemberPage from "./pages/admin/AddIndividualMemberPage";
+import InviteMembersPage from "./pages/admin/InviteMembersPage";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const App = () => (
             {/* Public routes */}
             <Route path="/no-insurance" element={<NoInsurance />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/admin/login" element={<AdminLoginPage />} />
 
             {/* Protected routes for regular users */}
             <Route element={<ProtectedRoute />}>
@@ -71,7 +73,6 @@ const App = () => (
                 <Route path="settings" element={<AdminSettings />} />
               </Route>
             </Route>
-
 
             {/* Catch-all route */}
             <Route path="*" element={<NotFound />} />

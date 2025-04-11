@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import MobileNavigation from "./MobileNavigation";
 import { useIsMobile } from "@/hooks/use-mobile";
+import LanguageSelectionModal from './LanguageSelectionModal';
 
 const Layout = () => {
   const isMobile = useIsMobile();
@@ -17,6 +18,8 @@ const Layout = () => {
           <Outlet />
         </main>
       </div>
+      <LanguageSelectionModal/>
+      
       {isMobile && <MobileNavigation />}
     </div>
   );

@@ -69,14 +69,16 @@
       "address": "Address",
       "dob": "Date of Birth",
       "driverId": "Driver ID",
-      "gender": "Gender"
+      "gender": "Gender",
+      "healthId": "Health ID"
     },
     "dependent": {
       "title": "Dependent",
       "name": "Name",
       "dob": "Date of Birth",
       "relationship": "Relationship",
-      "gender": "Gender"
+      "gender": "Gender",
+      "healthId": "स्वास्थ्य आईडी"
     },
     "support": {
       "title": "Contact Support",

@@ -3,42 +3,52 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslation } from "react-i18next";
+import relianceInsurer from '../assets/reliance-insurer.svg';
+import { useAuth } from "@/context/AuthContext";
 
 interface InsuranceDetailsDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   insurance: {
     logo: string;
-    provider: string;
-    type: string;
+    policyId: string;
     policyNumber: string;
+    productName: string;
+    insurer: string;
     sumInsured: string;
-    membersType: string;
-    img: string;
+    inclusions: Array<{
+      title: string;
+      description: string;
+    }>;
+    exclusions: Array<{
+      title: string;
+      description: string;
+    }>;
   };
 }
 
 const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDetailsDialogProps) => {
+  const { user } = useAuth();
   const { t } = useTranslation();
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-md max-w-[95vw] sm:max-w-2xl w-full p-0 gap-0  max-h-[85vh] sm:max-h-[85vh] overflow-x-hidden overflow-y-auto">
+      <DialogContent className="rounded-md max-w-[95vw] sm:max-w-2xl w-full p-0 gap-0 max-h-[85vh] sm:max-h-[85vh] overflow-x-hidden overflow-y-auto">
         <DialogHeader className="sticky top-0 z-50 bg-background border-b p-1 sm:p-6">
           <div className="w-full space-y-2">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3 min-w-0">
                 <img
-                  src={insurance.img}
+                  src={relianceInsurer}
                   className="h-10 sm:h-12 object-contain"
-                  alt={insurance.provider}
+                  alt={insurance.insurer}
                 />
                 <div className="min-w-0">
                   <div className="text-sm sm:text-base font-medium truncate">
-                    {insurance.provider}
+                    {insurance?.insurer}
                   </div>
                   <DialogTitle className="text-xs sm:text-sm text-muted-foreground truncate">
-                    {insurance.type}
+                    {insurance.productName}
                   </DialogTitle>
                 </div>
               </div>
@@ -66,7 +76,7 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
             </div>
             <div className="bg-muted/50 p-3 rounded-lg">
               <div className="text-xs text-muted-foreground">{t('dashboard.membersCovered')}</div>
-              <div className="text-sm font-medium mt-1">{insurance.membersType}</div>
+              <div className="text-sm font-medium mt-1">Employee +{user?.policyDetails?.members?.length - 1 > 0 ? user?.policyDetails?.members?.length - 1 : null}</div>
             </div>
           </div>
 
@@ -121,10 +131,10 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
               </TabsList>
 
               <TabsContent value="overview" className="mt-4 space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="flex justify-between gap-4">
                   <div className="space-y-1">
                     <div className="text-xs text-muted-foreground">{t('dashboard.policyNumber')}</div>
-                    <div className="text-sm font-medium">Details Awaited</div>
+                    <div className="text-sm font-medium">{insurance.policyNumber}</div>
                   </div>
                   <div className="space-y-1">
                     <div className="text-xs text-muted-foreground">{t('dashboard.sumInsured')}</div>
@@ -152,42 +162,16 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td className="p-3 text-xs">Sachin</td>
-                          <td className="p-3 text-xs">Self</td>
-                          <td className="p-3 text-xs">01/02/1990</td>
-                          <td className="p-3 text-xs">AAAAAAAAAAAAAAAA</td>
-                        </tr>
-                        <tr>
-                          <td className="p-3 text-xs">Sachin</td>
-                          <td className="p-3 text-xs">Self</td>
-                          <td className="p-3 text-xs">01/02/1990</td>
-                          <td className="p-3 text-xs">AAAAAAAAAAAAAAAA</td>
-                        </tr>
-                        <tr>
-                          <td className="p-3 text-xs">Sachin</td>
-                          <td className="p-3 text-xs">Self</td>
-                          <td className="p-3 text-xs">01/02/1990</td>
-                          <td className="p-3 text-xs">AAAAAAAAAAAAAAAA</td>
-                        </tr>
-                        <tr>
-                          <td className="p-3 text-xs">Sachin</td>
-                          <td className="p-3 text-xs">Self</td>
-                          <td className="p-3 text-xs">01/02/1990</td>
-                          <td className="p-3 text-xs">AAAAAAAAAAAAAAAA</td>
-                        </tr>
-                        <tr>
-                          <td className="p-3 text-xs">Sachin</td>
-                          <td className="p-3 text-xs">Self</td>
-                          <td className="p-3 text-xs">01/02/1990</td>
-                          <td className="p-3 text-xs">AAAAAAAAAAAAAAAA</td>
-                        </tr>
-                        <tr>
-                          <td className="p-3 text-xs">Sachin</td>
-                          <td className="p-3 text-xs">Self</td>
-                          <td className="p-3 text-xs">01/02/1990</td>
-                          <td className="p-3 text-xs">AAAAAAAAAAAAAAAA</td>
-                        </tr>
+                        {
+                          user?.policyDetails?.members.map((member, index) => (
+                            <tr key={index}>
+                              <td className="p-3 text-xs">{member?.name}</td>
+                              <td className="p-3 text-xs">{member?.relation}</td>
+                              <td className="p-3 text-xs">{member?.dob ? new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(new Date(member.dob)) : ''}</td>
+                              <td className="p-3 text-xs">{member?.healthId}</td>
+                            </tr>
+                          ))
+                        }
                       </tbody>
                     </table>
                   </div>
@@ -195,14 +179,43 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
               </TabsContent>
 
               <TabsContent value="inclusions" className="mt-4">
-                <div className="text-sm text-muted-foreground">
-                  Policy inclusions will be displayed here.
+                <div className="space-y-6 py-2">
+                  {insurance.inclusions.map((item, index) => (
+                    <div key={index} className="flex gap-3">
+                      <div className="flex-shrink-0 mt-1">
+                        <div className="w-5 h-5 rounded-full flex items-center justify-center bg-green-100 text-green-600">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                          </svg>
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-medium">{item.title}</h3>
+                        <p className="text-sm text-muted-foreground mt-1">{item.description}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </TabsContent>
 
               <TabsContent value="exclusions" className="mt-4">
-                <div className="text-sm text-muted-foreground">
-                  Policy exclusions will be displayed here.
+                <div className="space-y-6 py-2">
+                  {insurance.exclusions.map((item, index) => (
+                    <div key={index} className="flex gap-3">
+                      <div className="flex-shrink-0 mt-1">
+                        <div className="w-5 h-5 rounded-full flex items-center justify-center bg-red-100 text-red-600">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                          </svg>
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-medium">{item.title}</h3>
+                        <p className="text-sm text-muted-foreground mt-1">{item.description}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </TabsContent>
             </Tabs>

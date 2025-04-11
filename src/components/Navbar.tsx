@@ -48,9 +48,9 @@ const Navbar = () => {
             <Button variant="ghost" className="flex items-center space-x-2">
               <Avatar className="h-8 w-8">
                 <AvatarImage src="" />
-                <AvatarFallback>{user?.email.charAt(0) || 'S'}</AvatarFallback>
+                <AvatarFallback>{user?.fullName.charAt(0).toUpperCase() || '?'}</AvatarFallback>
               </Avatar>
-              <span className="hidden md:inline-block">{user?.email.split(' ')[0] || 'Sachin'}</span>
+              <span className="hidden md:inline-block">{user?.fullName.split(' ')[0] || 'USER'}</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">

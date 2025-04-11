@@ -71,14 +71,17 @@
       "address": "पता",
       "dob": "जन्म तिथि",
       "driverId": "ड्राइवर आईडी",
-      "gender": "लिंग"
+      "gender": "लिंग",
+      "healthId": "स्वास्थ्य आईडी"
     },
     "dependent": {
       "title": "आश्रित",
       "name": "नाम",
       "dob": "जन्म तिथि",
       "relationship": "रिश्ता",
-      "gender": "लिंग"
+      "gender": "लिंग",
+      "healthId": "स्वास्थ्य आईडी"
+
     },
     "support": {
       "title": "सहायता से संपर्क करें",

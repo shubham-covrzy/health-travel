@@ -4,12 +4,14 @@ import authService from "../services/authService";
 import { toast } from "@/components/ui/use-toast";
 
 // Import the policy interfaces
-import { PolicyMembersResponse,User } from "../types/user";
-
+import { PolicyMembersResponse, User } from "../types/employee";
 
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
+  loginWithOtp: (phone: string, otp: string) => Promise<void>;
+  sendOtp: (phone: string) => Promise<{ request_id: string; type: string }>;
+  resendOtp: (phone: string) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
   isAdmin: () => boolean;
@@ -31,9 +33,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       if (currentUser) {
         // Create the base user object
-        const userObj:User = {
+        const userObj: User = {
           userId: currentUser.userId,
           email: currentUser.email,
+          phone: currentUser.phone,
+          fullName: currentUser.fullName,
           isAuthenticated: true,
           role: currentUser.role
         };
@@ -63,7 +67,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     checkAuthStatus();
   }, []);
 
-  // Login function - now uses authService
+  // Login function - uses email/password
   const login = async (email: string, password: string): Promise<void> => {
     setIsLoading(true);
 
@@ -72,9 +76,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const data = await authService.login(email, password);
 
       // Initialize user object
-      const userObj:User = {
+      const userObj: User = {
         userId: data.userId,
         email: data.email,
+        phone: data.phone,
+        fullName: data.fullName,
         isAuthenticated: true,
         role: data.roles[0].toUpperCase()
       };
@@ -115,6 +121,77 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  // Send OTP function
+  const sendOtp = async (phone: string): Promise<{ request_id: string; type: string }> => {
+    try {
+      const response = await authService.sendOtp(phone);
+      return response;
+    } catch (error) {
+      console.error("Send OTP failed:", error);
+      throw error;
+    }
+  };
+
+  // Resend OTP function
+  const resendOtp = async (phone: string): Promise<void> => {
+    try {
+      await authService.resendOtp(phone);
+    } catch (error) {
+      console.error("Resend OTP failed:", error);
+      throw error;
+    }
+  };
+
+  // Login with OTP function
+  const loginWithOtp = async (phone: string, otp: string): Promise<void> => {
+    setIsLoading(true);
+
+    try {
+      // Call the OTP login service
+      const data = await authService.loginWithOtp(phone, otp);
+
+      // Initialize user object
+      const userObj: User = {
+        userId: data.userId,
+        email: data.email,
+        phone: data.phone,
+        fullName: data.fullName,
+        isAuthenticated: true,
+        role: data.roles[0].toUpperCase()
+      };
+
+      // Fetch policy members for the user
+      try {
+        const policyDetails: PolicyMembersResponse = await authService.fetchPolicyDetails(data.userId);
+        userObj.policyDetails = policyDetails;
+
+        // Store policy members in localStorage for future use
+        localStorage.setItem('policyDetails', JSON.stringify(policyDetails));
+      } catch (error) {
+        console.error("Failed to fetch policy members:", error);
+        // Continue with login even if policy members fetch fails
+      }
+
+      // Set user in state with policy members (if available)
+      setUser(userObj);
+
+      // Navigate to home since OTP login is only for regular users
+      navigate("/");
+
+      // Show success toast
+      toast({
+        title: "Login successful",
+        description: `Welcome${userObj.fullName ? ', ' + userObj.fullName : ''}!`,
+      });
+
+    } catch (error) {
+      console.error("OTP login failed:", error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // Logout function
   const logout = () => {
     authService.logout();
@@ -129,11 +206,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return authService.isAdmin();
   };
 
-  console.log(user)
   // Context value
   const value = {
     user,
     login,
+    loginWithOtp,
+    sendOtp,
+    resendOtp,
     logout,
     isLoading,
     isAdmin,

@@ -74,14 +74,17 @@
       "address": "முகவரி",
       "dob": "பிறந்த தேதி",
       "driverId": "ஓட்டுநர் ID",
-      "gender": "பாலினம்"
+      "gender": "பாலினம்",
+      "healthId": "ஆரோக்கிய ஐடி"
     },
     "dependent": {
       "title": "சார்ந்தவர்",
       "name": "பெயர்",
       "dob": "பிறந்த தேதி",
       "relationship": "உறவு",
-      "gender": "பாலினம்"
+      "gender": "பாலினம்",
+      "healthId": "स्वास्थ्य आईडी"
+
     },
     "support": {
       "title": "ஆதரவை தொடர்பு கொள்ளவும்",

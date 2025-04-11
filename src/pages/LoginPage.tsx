@@ -1,28 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { Link } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
-import { useTranslation } from "react-i18next";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("tony@stark.com");
-  const [password, setPassword] = useState("password");
+  const [phone, setPhone] = useState("919026944460");
+  const [otp, setOtp] = useState(["", "", "", ""]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [activeTab, setActiveTab] = useState("user");
-  const { login } = useAuth();
-  const { t } = useTranslation();
+  const [showOtpInput, setShowOtpInput] = useState(false);
+  const [requestId, setRequestId] = useState("");
+  const [timer, setTimer] = useState(0);
+  const { loginWithOtp, sendOtp, resendOtp } = useAuth();
+  const otpInputRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  useEffect(() => {
+    let interval;
+
+    if (timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [timer]);
+
+  const handleSendOtp = async (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
+    if (!phone) {
       toast({
         title: "Error",
-        description: "Please enter both email and password",
+        description: "Please enter your phone number",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate phone number format (should start with country code)
+    if (!/^[0-9]{10,12}$/.test(phone.replace(/\s/g, ''))) {
+      toast({
+        title: "Error",
+        description: "Please enter a valid phone number with country code",
         variant: "destructive",
       });
       return;
@@ -31,15 +55,30 @@ const LoginPage = () => {
     setIsSubmitting(true);
 
     try {
-      await login(email, password);
+      // Format phone number (add country code if not present)
+      let formattedPhone = phone;
+      if (!formattedPhone.startsWith("91")) {
+        formattedPhone = `91${formattedPhone}`;
+      }
+
+      const response = await sendOtp(formattedPhone);
+      setRequestId(response.request_id);
+      setShowOtpInput(true);
+      setTimer(30); // 30 seconds countdown for resend
+
       toast({
-        title: "Success",
-        description: "You have successfully logged in",
+        title: "OTP Sent",
+        description: "OTP has been sent to your phone number",
       });
+
+      // Focus the first OTP input
+      if (otpInputRefs[0].current) {
+        otpInputRefs[0].current.focus();
+      }
     } catch (error) {
       toast({
-        title: "Login Failed",
-        description: "Invalid email or password",
+        title: "Failed to Send OTP",
+        description: "Unable to send OTP. Please check your phone number and try again.",
         variant: "destructive",
       });
     } finally {
@@ -47,17 +86,106 @@ const LoginPage = () => {
     }
   };
 
-  const handleTabChange = (value: string) => {
-    setActiveTab(value);
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
 
-    // Set default credentials based on selected tab
-    if (value === "user") {
-      setEmail("demo@example.com");
-      setPassword("password");
-    } else {
-      setEmail("admin@example.com");
-      setPassword("admin123");
+    const otpValue = otp.join("");
+    if (otpValue.length !== 4) {
+      toast({
+        title: "Error",
+        description: "Please enter the complete 4-digit OTP",
+        variant: "destructive",
+      });
+      return;
     }
+
+    setIsSubmitting(true);
+
+    try {
+      // Format phone number if not already formatted
+      let formattedPhone = phone;
+      if (!formattedPhone.startsWith("91")) {
+        formattedPhone = `91${formattedPhone}`;
+      }
+
+      await loginWithOtp(formattedPhone, otpValue);
+
+      toast({
+        title: "Login Successful",
+        description: "You have successfully logged in",
+      });
+    } catch (error) {
+      toast({
+        title: "Login Failed",
+        description: "Invalid OTP. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    if (timer > 0) return;
+
+    setIsSubmitting(true);
+
+    try {
+      // Format phone number if not already formatted
+      let formattedPhone = phone;
+      if (!formattedPhone.startsWith("91")) {
+        formattedPhone = `91${formattedPhone}`;
+      }
+
+      await resendOtp(formattedPhone);
+      setTimer(30); // Reset timer
+
+      toast({
+        title: "OTP Resent",
+        description: "A new OTP has been sent to your phone number",
+      });
+    } catch (error) {
+      toast({
+        title: "Failed to Resend OTP",
+        description: "Unable to resend OTP. Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleOtpChange = (index, value) => {
+    if (value.length > 1) {
+      value = value.slice(0, 1);
+    }
+
+    // Only allow digits
+    if (value && !/^\d+$/.test(value)) {
+      return;
+    }
+
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+
+    // Auto-focus next input
+    if (value && index < 3 && otpInputRefs[index + 1].current) {
+      otpInputRefs[index + 1].current.focus();
+    }
+  };
+
+  const handleKeyDown = (index, e) => {
+    // Move to previous input on backspace if current input is empty
+    if (e.key === "Backspace" && !otp[index] && index > 0 && otpInputRefs[index - 1].current) {
+      otpInputRefs[index - 1].current.focus();
+    }
+  };
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   };
 
   return (
@@ -70,119 +198,117 @@ const LoginPage = () => {
               <div className="absolute inset-0 m-4 rounded-full bg-white"></div>
             </div>
           </div>
-          <CardTitle className="text-2xl text-center font-bold">{t('login.welcome')}</CardTitle>
-          <p className="text-center text-gray-600">{t('login.credentials')}</p>
+          <CardTitle className="text-2xl text-center font-bold">
+            {showOtpInput ? "Enter OTP" : "Welcome Back"}
+          </CardTitle>
+          <p className="text-center text-gray-600">
+            {showOtpInput
+              ? `OTP sent to ${phone}`
+              : "Login with your mobile number"}
+          </p>
         </CardHeader>
 
-        <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-          <div className="px-6">
-            <TabsList className="grid w-full grid-cols-2 mb-4">
-              <TabsTrigger value="user">User Login</TabsTrigger>
-              <TabsTrigger value="admin">Admin Login</TabsTrigger>
-            </TabsList>
-          </div>
-
-          <TabsContent value="user">
-            <CardContent className="space-y-4">
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium">
-                    {t('login.email')}
-                  </label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="demo@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
+        <CardContent className="space-y-4">
+          {!showOtpInput ? (
+            <form onSubmit={handleSendOtp} className="space-y-4">
+              <div className="space-y-2">
+                <label htmlFor="phone" className="text-sm font-medium">
+                  Phone Number
+                </label>
+                <Input
+                  id="phone"
+                  type="tel"
+                  placeholder="919876543210"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+                <p className="text-xs text-gray-500">
+                  Enter your phone number with country code (e.g., 91 for India)
+                </p>
+              </div>
+              <Button
+                type="submit"
+                className="w-full bg-covrzy-purple hover:bg-purple-700"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <span className="flex items-center">
+                    <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
+                    Sending OTP
+                  </span>
+                ) : (
+                  "Send OTP"
+                )}
+              </Button>
+            </form>
+          ) : (
+            <form onSubmit={handleVerifyOtp} className="space-y-4">
+              <div className="space-y-2">
+                <label htmlFor="otp" className="text-sm font-medium">
+                  One-Time Password
+                </label>
+                <div className="flex justify-center gap-2">
+                  {[0, 1, 2, 3].map((index) => (
+                    <Input
+                      key={index}
+                      ref={otpInputRefs[index]}
+                      className="w-12 h-12 text-center text-lg"
+                      type="text"
+                      inputMode="numeric"
+                      maxLength={1}
+                      value={otp[index]}
+                      onChange={(e) => handleOtpChange(index, e.target.value)}
+                      onKeyDown={(e) => handleKeyDown(index, e)}
+                      autoComplete="off"
+                    />
+                  ))}
                 </div>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <label htmlFor="password" className="text-sm font-medium">
-                      {t('login.password')}
-                    </label>
-                    <Link to="/forgot-password" className="text-xs text-covrzy-purple hover:underline">
-                      {t('login.forgotPassword')}
-                    </Link>
-                  </div>
-                  <Input
-                    id="password"
-                    type="password"
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  className="w-full bg-covrzy-purple hover:bg-purple-700"
-                  disabled={isSubmitting}
+              </div>
+              <Button
+                type="submit"
+                className="w-full bg-covrzy-purple hover:bg-purple-700"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <span className="flex items-center">
+                    <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
+                    Verifying
+                  </span>
+                ) : (
+                  "Verify & Login"
+                )}
+              </Button>
+              <div className="text-center mt-4">
+                <button
+                  type="button"
+                  onClick={handleResendOtp}
+                  disabled={timer > 0 || isSubmitting}
+                  className="text-sm text-covrzy-purple hover:underline disabled:text-gray-400 disabled:no-underline"
                 >
-                  {isSubmitting ? (
-                    <span className="flex items-center">
-                      <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
-                      {t('login.signingIn')}
-                    </span>
-                  ) : (
-                    t('login.signin')
-                  )}
-                </Button>
-              </form>
-            </CardContent>
-          </TabsContent>
-
-          <TabsContent value="admin">
-            <CardContent className="space-y-4">
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <label htmlFor="adminEmail" className="text-sm font-medium">
-                    Admin Email
-                  </label>
-                  <Input
-                    id="adminEmail"
-                    type="email"
-                    placeholder="admin@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="adminPassword" className="text-sm font-medium">
-                    Admin Password
-                  </label>
-                  <Input
-                    id="adminPassword"
-                    type="password"
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  className="w-full bg-covrzy-purple hover:bg-purple-700"
-                  disabled={isSubmitting}
+                  {timer > 0
+                    ? `Resend OTP in ${formatTime(timer)}`
+                    : "Resend OTP"}
+                </button>
+              </div>
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowOtpInput(false);
+                    setOtp(["", "", "", ""]);
+                  }}
+                  className="text-sm text-gray-600 hover:underline"
                 >
-                  {isSubmitting ? (
-                    <span className="flex items-center">
-                      <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
-                      Admin Sign In
-                    </span>
-                  ) : (
-                    "Admin Sign In"
-                  )}
-                </Button>
-              </form>
-            </CardContent>
-          </TabsContent>
-        </Tabs>
+                  Change Phone Number
+                </button>
+              </div>
+            </form>
+          )}
+        </CardContent>
 
         <CardFooter className="flex justify-center">
           <p className="text-xs text-gray-500">
-            {activeTab === "user"
-              ? "User credentials: demo@example.com / password"
-              : "Admin credentials: admin@example.com / admin123"}
+            For admin login <Link to="/admin/login" className="text-covrzy-purple hover:underline">click here</Link>
           </p>
         </CardFooter>
       </Card>
