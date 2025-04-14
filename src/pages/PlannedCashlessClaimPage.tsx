@@ -3,7 +3,7 @@ import { ChevronLeft, Download, Hospital } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTranslation } from "react-i18next";
-import { ENV } from "@/data";
+import { ENV, RELIANCE_INSURER_LINK } from "@/data";
 
 const PlannedCashlessClaimPage = () => {
   const isMobile = useIsMobile();
@@ -54,7 +54,7 @@ const PlannedCashlessClaimPage = () => {
           <Download className="h-4 w-4" />
           {t("claims.downloadECard", "Download E-Card")}
         </Button>
-        <Button className="bg-covrzy-purple hover:bg-purple-700 w-full sm:w-auto flex items-center justify-center gap-2">
+        <Button className="bg-covrzy-purple hover:bg-purple-700 w-full sm:w-auto flex items-center justify-center gap-2" onClick={() => window.open(RELIANCE_INSURER_LINK?.NetworkHospital, '_blank')}>
           <Hospital className="h-4 w-4" />
           {t("claims.viewHospitals", "View Network Hospitals")}
         </Button>

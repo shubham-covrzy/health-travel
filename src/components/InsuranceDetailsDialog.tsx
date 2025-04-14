@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslation } from "react-i18next";
 import relianceInsurer from '../assets/reliance-insurer.svg';
 import { useAuth } from "@/context/AuthContext";
+import { RELIANCE_INSURER_LINK } from "@/data";
 
 interface InsuranceDetailsDialogProps {
   open: boolean;
@@ -95,7 +96,7 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
             <Button
               variant="outline"
               className="w-full text-xs h-9"
-              onClick={() => window.open('https://rgi-locator.appspot.com/?Search_by=hospital&sourcesystem=website&phonenumber=&emailid=#/', '_blank')}
+              onClick={() => window.open(RELIANCE_INSURER_LINK?.NetworkHospital, '_blank')}
             >
               {t('insurance.details.hospitalNetwork')}
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2">
@@ -107,7 +108,7 @@ const InsuranceDetailsDialog = ({ open, onOpenChange, insurance }: InsuranceDeta
             <Button
               variant="outline"
               className="w-full text-xs h-9"
-              onClick={() => window.open('https://www.reliancegeneral.co.in/Downloads/List_of_Day_Care_Procedures.pdf', '_blank')}
+              onClick={() => window.open(RELIANCE_INSURER_LINK?.DayCareTreatMent, '_blank')}
             >
               {t('insurance.details.dayCareTreatment')}
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2">

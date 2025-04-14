@@ -7,7 +7,11 @@ interface EnvVariables {
   CLAIM_SUPPORT_TAMIL?: string;
   CLAIM_SUPPORT_KANNADA?: string;
 }
-
+interface IInsurerLink{
+  NetworkHospital?: string;
+  DayCareTreatMent?:string;
+  
+}
 // Safe access to environment variables in Vite
 export const ENV: EnvVariables = {
   SUPPORT_PHONE: import.meta.env.VITE_POC_NO_INSURANCE || "+91 8660514573",
@@ -19,3 +23,9 @@ export const ENV: EnvVariables = {
   CLAIM_SUPPORT_TAMIL: import.meta.env.VITE_CLAIM_SUPPORT_TAMIL || "+91 9113537473",
   CLAIM_SUPPORT_KANNADA: import.meta.env.VITE_CLAIM_SUPPORT_KANNADA || "+91 8660514573",
 };
+
+
+export const RELIANCE_INSURER_LINK: IInsurerLink = {
+  NetworkHospital: "https://rgi-locator.appspot.com/?Search_by=hospital&sourcesystem=website&phonenumber=&emailid=#/",
+  DayCareTreatMent: "https://www.reliancegeneral.co.in/Downloads/List_of_Day_Care_Procedures.pdf",
+}
