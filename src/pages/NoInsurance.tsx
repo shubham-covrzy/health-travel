@@ -4,9 +4,10 @@ import { Button } from "@/components/ui/button";
 import { AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { ENV } from "@/data";
 
 const NoInsurance = () => {
-  const poc = import.meta.env.VITE_POC_NO_INSURANCE;
+  const poc = ENV.SUPPORT_PHONE;
   const { t } = useTranslation();
 
   return (

@@ -92,18 +92,18 @@ const ClaimsPage = () => {
           <div className="flex flex-col md:flex-row ">
             <div className="p-6 flex-1">
               <p className="text-gray-600 mb-4">
-                {t('claims.manager')}:
-                <span className="font-medium text-gray-800 ml-1">{ENV.SUPPORT_NAME}</span>
+                {t('claims.manager')} 
+                {/* <span className="font-medium text-gray-800 ml-1">{ENV.SUPPORT_NAME}</span> */}
               </p>
 
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <Phone className="h-5 w-5 text-gray-500" />
-                  <span className="text-gray-800">{supportNumber}</span>
+                  <a href={`tel:${supportNumber}`} className="text-gray-800">{supportNumber}</a>
                 </div>
                 <div className="flex items-center gap-2">
                   <Mail className="h-5 w-5 text-gray-500" />
-                  <span className="text-gray-800">{ENV.SUPPORT_EMAIL}</span>
+                  <a href={`mailto:${ENV.SUPPORT_EMAIL}`} className="text-gray-800">{ENV.SUPPORT_EMAIL}</a>
                 </div>
               </div>
             </div>

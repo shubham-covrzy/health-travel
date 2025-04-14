@@ -27,7 +27,7 @@ const AdminLayout = () => {
     const { user, logout } = useAuth();
     const isMobile = useIsMobile();
     const [isSupportDialogOpen, setIsSupportDialogOpen] = useState(false);
-
+    // console.log(user)
     return (
         <div className="min-h-screen flex flex-col bg-[#FAFAFA]">
             {/* Admin Navbar - similar to main app but with admin indicator */}
@@ -57,9 +57,9 @@ const AdminLayout = () => {
                             <Button variant="ghost" className="flex items-center space-x-2">
                                 <Avatar className="h-8 w-8">
                                     <AvatarImage src="" />
-                                    <AvatarFallback>{user?.name.charAt(0) || 'A'}</AvatarFallback>
+                                    <AvatarFallback>{user?.fullName?.charAt(0) || 'A'}</AvatarFallback>
                                 </Avatar>
-                                <span className="hidden md:inline-block">{user?.name.split(' ')[0] || 'Admin'}</span>
+                                <span className="hidden md:inline-block">{user?.fullName?.split(' ')[0] || 'Admin'}</span>
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-56">

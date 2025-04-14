@@ -22,11 +22,11 @@ const AdminProfilePage = () => {
                 <div className="relative px-6 pb-6">
                     <Avatar className="h-20 w-20 absolute -top-10 border-4 border-white">
                         <AvatarImage src="" />
-                        <AvatarFallback className="text-xl">{user?.name.charAt(0) || 'A'}</AvatarFallback>
+                        <AvatarFallback className="text-xl">{user?.fullName.charAt(0) || 'A'}</AvatarFallback>
                     </Avatar>
 
                     <div className="pt-12">
-                        <h2 className="text-xl font-bold">{user?.name || 'Admin User'}</h2>
+                        <h2 className="text-xl font-bold">{user?.fullName || 'Admin User'}</h2>
                         <p className="text-gray-500">Administrator</p>
                     </div>
                 </div>
@@ -48,7 +48,7 @@ const AdminProfilePage = () => {
                             </label>
                             <Input
                                 id="name"
-                                defaultValue={user?.name || 'Admin User'}
+                                defaultValue={user?.fullName || 'Admin User'}
                             />
                         </div>
 
@@ -69,7 +69,7 @@ const AdminProfilePage = () => {
                             </label>
                             <Input
                                 id="phone"
-                                defaultValue="+91 98765 43210"
+                                defaultValue="+91 xxxxxxxxxx"
                             />
                         </div>
 

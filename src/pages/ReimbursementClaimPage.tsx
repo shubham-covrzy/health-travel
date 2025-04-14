@@ -3,6 +3,7 @@ import { ChevronLeft, FileText } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTranslation } from "react-i18next";
+import { ENV } from "@/data";
 
 const ReimbursementClaimPage = () => {
     const isMobile = useIsMobile();
@@ -82,7 +83,7 @@ const ReimbursementClaimPage = () => {
             <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
                 <h3 className="font-medium mb-2">{t("common.needHelp", "Need help with your claim?")}</h3>
                 <p className="text-gray-600 text-sm">
-                    {t("common.contactSupport", "Contact our support team at")} <span className="font-medium">{import.meta.env.VITE_POC_EMAIL_INSURANCE}</span> {t("or", "or")} <span className="font-medium">{import.meta.env.VITE_POC_NO_INSURANCE}</span>
+                    {t("common.contactSupport", "Contact our support team at")} <a href={`mailto:${ENV.SUPPORT_EMAIL}`} className="font-medium">{ENV.SUPPORT_EMAIL}</a> {t("or", "or")} <a href={`tel:${ENV.SUPPORT_PHONE}`} className="font-medium">{ENV.SUPPORT_PHONE}</a>
                 </p>
             </div>
 

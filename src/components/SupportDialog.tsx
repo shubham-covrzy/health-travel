@@ -1,6 +1,7 @@
 import { X, Phone, Mail } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useTranslation } from "react-i18next";
+import { ENV } from "@/data";
 
 interface SupportDialogProps {
   open: boolean;
@@ -22,7 +23,7 @@ const SupportDialog = ({ open, onOpenChange }: SupportDialogProps) => {
         <div className="space-y-3 py-1">
           <div>
             <div className="text-gray-600 mb-2">Claims Relationship Manager</div>
-            <div className="font-medium text-lg">{import.meta.env.VITE_POC_NAME_INSURANCE}</div>
+            <div className="font-medium text-lg">{ENV.SUPPORT_NAME}</div>
           </div>
 
           <div className="space-y-4">
@@ -30,17 +31,19 @@ const SupportDialog = ({ open, onOpenChange }: SupportDialogProps) => {
               <div className="bg-gray-100 p-2 rounded-full">
                 <Phone className="h-5 w-5 text-gray-500" />
               </div>
-              <span className="text-gray-800">{import.meta.env.VITE_POC_NO_INSURANCE}</span>
+              <a className="text-gray-800" href={`tel:${ENV.SUPPORT_PHONE}`}>
+                {ENV.SUPPORT_PHONE}
+              </a>
             </div>
             <div className="flex items-center gap-3">
               <div className="bg-gray-100 p-2 rounded-full">
                 <Mail className="h-5 w-5 text-gray-500" />
               </div>
-              <span className="text-gray-800">{import.meta.env.VITE_POC_EMAIL_INSURANCE}</span>
+              <span className="text-gray-800">{ENV.SUPPORT_EMAIL}</span>
             </div>
           </div>
 
-          <button className="w-full bg-covrzy-purple hover:bg-purple-700 text-white py-3 px-4 rounded-md transition-colors font-medium" onClick={() => window.location.href = `tel:${import.meta.env.VITE_POC_NO_INSURANCE}`}>
+          <button className="w-full bg-covrzy-purple hover:bg-purple-700 text-white py-3 px-4 rounded-md transition-colors font-medium" onClick={() => window.location.href = `tel:${ENV.SUPPORT_PHONE}`}>
             {t('common.contactUs')}
           </button>
         </div>
