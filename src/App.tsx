@@ -28,6 +28,7 @@ import UploadMembersPage from "./pages/admin/UploadMembersPage";
 import ReviewMembersDataPage from "./pages/admin/ReviewMembersDataPage";
 import AddIndividualMemberPage from "./pages/admin/AddIndividualMemberPage";
 import InviteMembersPage from "./pages/admin/InviteMembersPage";
+import ReimbursementClaimDocsPage from "./pages/ReimbursementClaimDocsPage";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +53,7 @@ const App = () => (
                 <Route path="planned-cashless-claim" element={<PlannedCashlessClaimPage />} />
                 <Route path="emergency-cashless-claim" element={<EmergencyCashlessClaimPage />} />
                 <Route path="reimbursement-claim" element={<ReimbursementClaimPage />} />
+                <Route path="reimbursemen-claim-document-list" element={<ReimbursementClaimDocsPage />} />
                 <Route path="profile" element={<UserProfile />} />
                 <Route path="*" element={<NotFound />} />
               </Route>

@@ -7,7 +7,25 @@ import { ENV, RELIANCE_INSURER_LINK } from "@/data";
 
 const EmergencyCashlessClaimPage = () => {
     const isMobile = useIsMobile();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const getLanguageSpecificSupportNumber = () => {
+        const currentLanguage = i18n.language;
+
+        switch (currentLanguage) {
+            case 'hi':
+                return ENV.CLAIM_SUPPORT_HINDI;
+            case 'ta':
+                return ENV.CLAIM_SUPPORT_TAMIL;
+            case 'kn':
+                return ENV.CLAIM_SUPPORT_KANNADA;
+            case 'en':
+            default:
+                return ENV.CLAIM_SUPPORT_ENGLISH;
+        }
+    };
+
+    const supportNumber = getLanguageSpecificSupportNumber();
+
 
     const steps = [
         {
@@ -86,7 +104,7 @@ const EmergencyCashlessClaimPage = () => {
             <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 mt-6">
                 <h3 className="font-medium mb-2">{t("common.needHelp", "Need help with your claim?")}</h3>
                 <p className="text-gray-600 text-sm">
-                    {t("common.contactSupport", "Contact our support team at")} <a href={`mailto:${ENV.SUPPORT_EMAIL}`} className="font-medium">{ENV.SUPPORT_EMAIL}</a> {t("or")} <a href={`tel:${ENV.SUPPORT_PHONE}`} className="font-medium">{ENV.SUPPORT_PHONE}</a>
+                    {t("common.contactSupport", "Contact our support team at")} <a href={`mailto:${ENV.SUPPORT_EMAIL}`} className="font-medium">{ENV.SUPPORT_EMAIL}</a> {t("or")} <a href={`tel:${supportNumber}`} className="font-medium">{supportNumber}</a>
                 </p>
             </div>
 

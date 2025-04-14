@@ -7,7 +7,25 @@ import { ENV } from "@/data";
 
 const ReimbursementClaimPage = () => {
     const isMobile = useIsMobile();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const getLanguageSpecificSupportNumber = () => {
+        const currentLanguage = i18n.language;
+
+        switch (currentLanguage) {
+            case 'hi':
+                return ENV.CLAIM_SUPPORT_HINDI;
+            case 'ta':
+                return ENV.CLAIM_SUPPORT_TAMIL;
+            case 'kn':
+                return ENV.CLAIM_SUPPORT_KANNADA;
+            case 'en':
+            default:
+                return ENV.CLAIM_SUPPORT_ENGLISH;
+        }
+    };
+
+    const supportNumber = getLanguageSpecificSupportNumber();
+
 
     const steps = [
         {
@@ -42,7 +60,9 @@ const ReimbursementClaimPage = () => {
             </div>
 
             <div className="flex justify-end">
-                <Button className="bg-covrzy-purple hover:bg-purple-700 px-6">{t("claims.viewDocList", "View Document List")}</Button>
+                <Link to="/reimbursemen-claim-document-list">
+                    <Button className="bg-covrzy-purple hover:bg-purple-700 px-6">{t("claims.viewDocList", "View Document List")}</Button>
+                </Link>
             </div>
 
             <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
@@ -83,7 +103,7 @@ const ReimbursementClaimPage = () => {
             <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
                 <h3 className="font-medium mb-2">{t("common.needHelp", "Need help with your claim?")}</h3>
                 <p className="text-gray-600 text-sm">
-                    {t("common.contactSupport", "Contact our support team at")} <a href={`mailto:${ENV.SUPPORT_EMAIL}`} className="font-medium">{ENV.SUPPORT_EMAIL}</a> {t("or", "or")} <a href={`tel:${ENV.SUPPORT_PHONE}`} className="font-medium">{ENV.SUPPORT_PHONE}</a>
+                    {t("common.contactSupport", "Contact our support team at")} <a href={`mailto:${ENV.SUPPORT_EMAIL}`} className="font-medium">{ENV.SUPPORT_EMAIL}</a> {t("or", "or")} <a href={`tel:${supportNumber}`} className="font-medium">{supportNumber}</a>
                 </p>
             </div>
 

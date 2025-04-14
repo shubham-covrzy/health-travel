@@ -195,7 +195,62 @@
       "title": "Cashless Claim Process",
       "step": "Step"
     },
-    "viewDocList": "View Document List"
+    "viewDocList": "View Document List",
+     "documents": {
+        "title": "Document List - Reimbursement Claims",
+        "description": "These are the documents required from you to process the claims. All documents marked with * are mandatory.",
+        "columnName": "Document Name",
+        "columnDescription": "Description",
+        "downloadForm": "Download Claim Form",
+        "claimForm": {
+          "name": "Claim form",
+          "description": "Click here to download the claim form. Part A is to be filled by the primary insured and Part B is to be filled, signed and stamped by the hospital."
+        },
+        "billsReceipts": {
+          "name": "Bills and payment receipts",
+          "description": "Final hospitalization bill (with break-up): This bill should have the final hospitalization amount and the break up of all charges i.e room rent charges, pharmacy charges, consumables, doctor's fees, and any other services used. Advance / Paid receipt: Payment/Acknowledgement receipt of all the payments made to the hospital i.e. payment made towards final hospitalization bill and advance/deposit paid (if any). Other bills & payment receipts: Bills for any other charge which does not form part of the final bill such as consultation bills, pharmacy bills, and corresponding proof of payment."
+        },
+        "dischargeSummary": {
+          "name": "Discharge Summary",
+          "description": "Detailed Discharge summary is a document given at the time of discharge which contains summary of the need for hospitalization, information of the treatments availed, follow up care recommendations etc."
+        },
+        "investigationReports": {
+          "name": "Investigation reports",
+          "description": "Lab reports: All lab reports such as CT scan, MRI, BIOPSY, USG Scan, Echo, Blood Test, X-ray etc. Bills and payment receipts: Prescription, bill and acknowledgement receipt of the payment made for the particular test/scan."
+        },
+        "implantDetails": {
+          "name": "Implant Details",
+          "description": "Invoice: Invoice of the medical device used for implant. Implant Sticker: An Implant sticker is a small label affixed to a medical device which contains details such as model serial number, manufacturing date etc."
+        },
+        "packageSurgery": {
+          "name": "Package Surgery bill-Break up",
+          "description": "In case of a surgery, where you have availed a package from the hospital, break up of all the charges in the package. Your final bill will mention the total amount of the package, individual charges of the total bill are required."
+        },
+        "firMlc": {
+          "name": "FIR/MLC Report",
+          "description": "This is mandatory for accidental claims. Medico Legal Certificate (MLC) - statement by the treating doctor indicating the nature and extent of injury; FIR - police report copy in case of RTA (road traffic accident)"
+        },
+        "kyc": {
+          "name": "KYC DOCUMENTS",
+          "aadharInsured": "Aadhar card of the insured (if claim is for your spouse or children)",
+          "aadharDriver": "Aadhar card of the driver partner",
+          "panInsured": "Pan card of the insured",
+          "panEmployee": "Pan card of the employee",
+          "ecard": "E-card of the employee",
+          "idCard": "Employee ID card",
+          "cancelledCheque": "Cancelled Cheque with name of primary insured"
+        },
+        "other": {
+          "name": "Other Documents",
+          "description": "On a case to case basis, insurance co may ask for Indoor Case Papers, Doctors progress notes, Temperature sheet, GRBS sheet, OT notes or any other necessary documents."
+        },
+        "importantTitle": "Important things to remember before sending your claim documents",
+        "important": {
+          "scan": "Please colour scan the original documents clearly.",
+          "share": "Share the colour scanned copies at the Email Address mentioned in the Claims Dashboard",
+          "assistance": "For further assistance, please reach out to your claims team."
+        }
+      }
   },
   "profile": {
     "title": "User Profile",
